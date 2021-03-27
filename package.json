@@ -11,9 +11,11 @@
     "@types/node": "^12.20.6",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "date-fns": "^2.19.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "timezone-support": "^2.0.2",
     "typescript": "^4.2.3",
     "web-vitals": "^1.1.1"
   },
