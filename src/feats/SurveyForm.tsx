@@ -42,6 +42,16 @@ export const SurveyForm = () => {
     timezone: timezones[0],
   });
 
+  const validatePasswordsMatch = () =>
+    formValues.password === formValues.confirmPassword;
+  const getPasswordsMatchError = () =>
+    validatePasswordsMatch() ? "" : "Passwords must match";
+  // add && otherValidation if more are added
+  const validateAll = () =>
+    formValues.name.length > 0 &&
+    formValues.password.length > 0 &&
+    validatePasswordsMatch();
+
   const handleInput = (
     evt: React.ChangeEvent<
       | HTMLTextAreaElement
@@ -107,6 +117,8 @@ export const SurveyForm = () => {
           variant="outlined"
           value={formValues.confirmPassword}
           onChange={handleInput}
+          error={!validatePasswordsMatch()}
+          helperText={getPasswordsMatchError()}
           inputProps={{ "data-testid": "confirmPassword" }}
         />
 
@@ -180,7 +192,7 @@ export const SurveyForm = () => {
           </FormGroup>
         </FormControl>
 
-        <Button type="submit" disabled={false}>
+        <Button type="submit" disabled={!validateAll()}>
           Submit
         </Button>
       </form>
