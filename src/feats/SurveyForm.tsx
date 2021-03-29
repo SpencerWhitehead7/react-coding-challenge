@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Card,
   Checkbox,
   FormControl,
@@ -13,6 +12,8 @@ import {
 } from "@material-ui/core";
 import { formatISO } from "date-fns";
 import { listTimeZones } from "timezone-support";
+
+import { Form } from "../comps";
 
 const timezones = listTimeZones();
 
@@ -76,15 +77,29 @@ export const SurveyForm = () => {
     });
   };
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    console.log(formValues);
-  };
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) =>
+    // in a real app, I'd dispatch an action, call window.fetch, use a GQL mutation, etc
+    new Promise((res, rej) => {
+      setTimeout(() => {
+        console.log({
+          name: formValues.name,
+          password: formValues.password,
+          birthday: formValues.birthday,
+          preferences: {
+            techPref: formValues.techPref,
+            pizzaToppings: Object.entries(formValues.pizzaToppings)
+              .filter(([key, val]) => Boolean(val))
+              .map(([key, val]) => key),
+            timezone: formValues.timezone,
+          },
+        });
+        res(null);
+      }, 1000);
+    });
 
   return (
     <Card raised>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} isSubmitDisabled={!validateAll()}>
         <TextField
           name="name"
           label="Name"
@@ -191,11 +206,7 @@ export const SurveyForm = () => {
             )}
           </FormGroup>
         </FormControl>
-
-        <Button type="submit" disabled={!validateAll()}>
-          Submit
-        </Button>
-      </form>
+      </Form>
     </Card>
   );
 };
