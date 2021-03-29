@@ -50,4 +50,35 @@ describe("SurveyForm", () => {
       },
     });
   });
+
+  it("handles name validation", () => {
+    render(<SurveyForm />);
+    const submitBtn = screen.getByTestId("submitBtn");
+    userEvent.type(screen.getByTestId("password"), "def");
+    userEvent.type(screen.getByTestId("confirmPassword"), "def");
+
+    // disabled if no name
+    expect(submitBtn).toBeDisabled();
+
+    // enabled once name is entered
+    userEvent.type(screen.getByTestId("name"), "abc");
+    expect(submitBtn).not.toBeDisabled();
+  });
+
+  it("handles password validation", () => {
+    render(<SurveyForm />);
+    const submitBtn = screen.getByTestId("submitBtn");
+    userEvent.type(screen.getByTestId("name"), "abc");
+
+    // disabled when no password
+    expect(submitBtn).toBeDisabled();
+
+    // disabled when password, but password does not match confirmPassword
+    userEvent.type(screen.getByTestId("password"), "def");
+    expect(submitBtn).toBeDisabled();
+
+    // enabled when password and password matches confirmPassword
+    userEvent.type(screen.getByTestId("confirmPassword"), "def");
+    expect(submitBtn).not.toBeDisabled();
+  });
 });
