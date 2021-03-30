@@ -1,11 +1,14 @@
 import React from "react";
 import {
   Card,
+  CardContent,
+  CardHeader,
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Grid,
   Radio,
   RadioGroup,
   TextField,
@@ -99,114 +102,143 @@ export const SurveyForm = () => {
 
   return (
     <Card raised>
-      <Form onSubmit={handleSubmit} isSubmitDisabled={!validateAll()}>
-        <TextField
-          name="name"
-          label="Name"
-          autoComplete="name"
-          required
-          variant="outlined"
-          value={formValues.name}
-          onChange={handleInput}
-          inputProps={{ "data-testid": "name" }}
-        />
-
-        <TextField
-          name="password"
-          label="Password"
-          type="password"
-          autoComplete="new-password"
-          required
-          variant="outlined"
-          value={formValues.password}
-          onChange={handleInput}
-          inputProps={{ "data-testid": "password" }}
-        />
-
-        <TextField
-          name="confirmPassword"
-          label="Confirm Password"
-          autoComplete="new-password"
-          type="password"
-          required
-          variant="outlined"
-          value={formValues.confirmPassword}
-          onChange={handleInput}
-          error={!validatePasswordsMatch()}
-          helperText={getPasswordsMatchError()}
-          inputProps={{ "data-testid": "confirmPassword" }}
-        />
-
-        <TextField
-          name="birthday"
-          label="Birthday"
-          type="date"
-          required
-          variant="outlined"
-          value={formValues.birthday}
-          onChange={handleInput}
-          inputProps={{ "data-testid": "birthday" }}
-        />
-
-        <TextField
-          name="timezone"
-          label="Timezone"
-          select
-          // using native select for performance reasons;
-          // mui's <MenuItem /> visibly slows the dropdown
-          SelectProps={{ native: true }}
-          required
-          variant="outlined"
-          value={formValues.timezone}
-          onChange={handleInput}
-          inputProps={{ "data-testid": "timezone" }}
-        >
-          {timezones.map((tz) => (
-            <option key={tz} value={tz}>
-              {tz}
-            </option>
-          ))}
-        </TextField>
-
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Tech Preference</FormLabel>
-          <RadioGroup
-            aria-label="tech preference"
-            name="techPref"
-            value={formValues.techPref}
+      <CardHeader title={"Survey Form"} />
+      <CardContent>
+        <Form onSubmit={handleSubmit} isSubmitDisabled={!validateAll()}>
+          <TextField
+            name="name"
+            label="Name"
+            autoComplete="name"
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            value={formValues.name}
             onChange={handleInput}
-          >
-            <FormControlLabel value="both" control={<Radio />} label="both" />
-            <FormControlLabel
-              value="front end"
-              control={<Radio />}
-              label="front end"
-            />
-            <FormControlLabel
-              value="back end"
-              control={<Radio />}
-              label="back end"
-            />
-          </RadioGroup>
-        </FormControl>
+            inputProps={{ "data-testid": "name" }}
+          />
 
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Pizza Toppings</FormLabel>
-          <FormGroup>
-            {Object.entries(formValues.pizzaToppings).map(
-              ([name, isChecked]) => (
-                <FormControlLabel
-                  key={name}
-                  control={<Checkbox name={name} />}
-                  label={name}
-                  checked={isChecked}
-                  onChange={handleCheck}
-                />
-              )
-            )}
-          </FormGroup>
-        </FormControl>
-      </Form>
+          <TextField
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="new-password"
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            value={formValues.password}
+            onChange={handleInput}
+            inputProps={{ "data-testid": "password" }}
+          />
+
+          <TextField
+            name="confirmPassword"
+            label="Confirm Password"
+            autoComplete="new-password"
+            type="password"
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            value={formValues.confirmPassword}
+            onChange={handleInput}
+            error={!validatePasswordsMatch()}
+            helperText={getPasswordsMatchError()}
+            inputProps={{ "data-testid": "confirmPassword" }}
+          />
+
+          <TextField
+            name="birthday"
+            label="Birthday"
+            type="date"
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            value={formValues.birthday}
+            onChange={handleInput}
+            inputProps={{ "data-testid": "birthday" }}
+          />
+
+          <TextField
+            name="timezone"
+            label="Timezone"
+            select
+            // using native select for performance reasons;
+            // mui's <MenuItem /> visibly slows the dropdown
+            SelectProps={{ native: true }}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            value={formValues.timezone}
+            onChange={handleInput}
+            inputProps={{ "data-testid": "timezone" }}
+          >
+            {timezones.map((tz) => (
+              <option key={tz} value={tz}>
+                {tz}
+              </option>
+            ))}
+          </TextField>
+
+          <FormControl component="fieldset" fullWidth margin="normal">
+            <FormLabel component="legend">Tech Preference</FormLabel>
+            <RadioGroup
+              aria-label="tech preference"
+              name="techPref"
+              row
+              value={formValues.techPref}
+              onChange={handleInput}
+            >
+              <Grid container>
+                <Grid item xs={4}>
+                  <FormControlLabel
+                    value="both"
+                    control={<Radio />}
+                    label="both"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControlLabel
+                    value="front end"
+                    control={<Radio />}
+                    label="front end"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControlLabel
+                    value="back end"
+                    control={<Radio />}
+                    label="back end"
+                  />
+                </Grid>
+              </Grid>
+            </RadioGroup>
+          </FormControl>
+
+          <FormControl component="fieldset" fullWidth margin="normal">
+            <FormLabel component="legend">Pizza Toppings</FormLabel>
+            <FormGroup>
+              <Grid container>
+                {Object.entries(formValues.pizzaToppings).map(
+                  ([name, isChecked]) => (
+                    <Grid key={name} item sm={4} xs={6}>
+                      <FormControlLabel
+                        control={<Checkbox name={name} />}
+                        label={name}
+                        checked={isChecked}
+                        onChange={handleCheck}
+                      />
+                    </Grid>
+                  )
+                )}
+              </Grid>
+            </FormGroup>
+          </FormControl>
+        </Form>
+      </CardContent>
     </Card>
   );
 };
