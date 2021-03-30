@@ -7,6 +7,7 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   FormLabel,
   Grid,
   Radio,
@@ -236,6 +237,7 @@ export const SurveyForm = () => {
                 )}
               </Grid>
             </FormGroup>
+            <FormHelperText>Inquiring minds want to know!</FormHelperText>
           </FormControl>
         </Form>
       </CardContent>
